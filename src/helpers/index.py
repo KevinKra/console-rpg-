@@ -30,3 +30,7 @@ def set_user_class():
                 f"\n{user_class.capitalize()} is not valid. Please select either mage or warrior."
             )
             continue
+
+
+def addValues(x, y):
+    return x + y

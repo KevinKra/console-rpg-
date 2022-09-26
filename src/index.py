@@ -1,4 +1,4 @@
-from utils.index import set_user_name, set_user_class
+from helpers.index import set_user_name, set_user_class
 
 
 class Character:
