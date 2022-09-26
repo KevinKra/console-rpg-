@@ -1,10 +1,11 @@
 import unittest
-from src.helpers.index import addValues
 
-
-# from helpers.index import addValues
+# from src.helpers import index
+# from src.helpers.index import *
+from src.utils.utils import addValues
 
 # python -m unittest test_utils.py
+# python -m unittest discover tests
 
 
 class TestAdd(unittest.TestCase):
