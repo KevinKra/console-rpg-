@@ -1,13 +1,23 @@
-def confirm_user_choice(choice: str):
-    while True:
-        user_response = input(f"\nYou chose '{choice}', is this correct? y/n ")
+from typing import Iterable, Optional
+
+
+def confirm_user_choice(choice: str, responses: Optional[Iterable[str]] = None):
+    if responses is None:
+        # An infinite stream of calls to input()
+        responses = iter(
+            lambda: input(f"\nYou chose '{choice}', is this correct? y/n "), None
+        )
+
+    for user_response in responses:
         if user_response == "y":
             return True
         elif user_response == "n":
             return False
         else:
             print("\nSelect either 'y' (yes) or 'n' (no)")
-            continue
+    else:
+        # Note: cannot be raised from the default value of responses
+        raise ValueError("Unexpected end of responses")
 
 
 def set_user_name():
