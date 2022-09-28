@@ -17,6 +17,7 @@ class Player:
         self.hero_type = None
         self.stats = {"health": 100, "mana": 0, "dodge": 0, "fortune": 0}
         self.attributes = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
+        self.spendable_attribute_points = 0
 
         # on instance init, add self to class attribute
         Player.allPlayers.append(self)
@@ -37,29 +38,30 @@ class Player:
     #     return isinstance(num, int)
 
     # instance methods
-    def increase_attribute(self, selected_attribute: str) -> bool:
+    def set_attribute_points(self, attribute_points: int) -> None:
+        """sets player spendable attribute points"""
+        assert attribute_points > 0, "attribute_points must be a positive int"
+        self.spendable_attribute_points = attribute_points
+
+    def increase_attribute(self) -> None:
         """assigns attributes points"""
+        selected_attribute = input()
         if selected_attribute in self.attributes:
+            self.spendable_attribute_points -= 1
             self.attributes[selected_attribute] += 1
             if selected_attribute == "strength":
                 self.stats["health"] += 10
             if selected_attribute == "intellect":
                 self.stats["mana"] += 10
-            return True
-        else:
-            print("\n=== Notice: ATTRIBUTE NOT FOUND ===")
-            return False
+            return
+        print("\n=== Notice: ATTRIBUTE NOT FOUND ===")
 
-    def set_player_attributes(self, attribute_points: int) -> None:
+    def spend_player_attributes(self) -> None:
         """set stats with a set total pool of available attribute_points"""
-        assert attribute_points > 0, "attribute_points must be a positive int"
-        while attribute_points > 0:
+        while self.spendable_attribute_points > 0:
             self.print_user_stats()
-            self.print_attribute_allowance(attribute_points)
-            selected_attribute = input()
-            resolved = self.increase_attribute(selected_attribute)
-            if resolved:
-                attribute_points -= 1
+            self.print_attribute_allowance()
+            self.increase_attribute()
 
     def print_user_stats(self) -> None:
         """prints user's current stats to console"""
@@ -69,11 +71,11 @@ class Player:
         for item in self.attributes.items():
             print(f"{item[0]}: {item[1]}")
 
-    def print_attribute_allowance(self, attribute_points: int) -> None:
+    def print_attribute_allowance(self) -> None:
         """prints user's available attributes"""
         print(
             f"""
-        You have ({attribute_points}) attribute points available, assign them to continue.
+        You have ({self.spendable_attribute_points}) attribute points available, assign them to continue.
         ~to assign a value, type the name of the attribute.
         """
         )
@@ -91,7 +93,8 @@ class Game:
         set_user_class()
         self.player = Player(user_name)
         print(Player.allPlayers)
-        self.player.set_player_attributes(5)
+        self.player.set_attribute_points(5)
+        self.player.spend_player_attributes()
 
     def start_game(self) -> None:
         """root function that starts the game"""
