@@ -25,26 +25,18 @@ class Player:
     def __repr__(self) -> str:
         return f"Player({self.name})"
 
-    # example of class method
-    @classmethod
-    def some_class_method(cls) -> None:
-        """example of class method"""
+    # # example of class method
+    # @classmethod
+    # def some_class_method(cls) -> None:
+    #     """example of class method"""
 
-    # example of a static method
-    @staticmethod
-    def is_integer(num: int) -> bool:
-        """checks if argument is an integer"""
-        return isinstance(num, int)
+    # # example of a static method
+    # @staticmethod
+    # def is_integer(num: int) -> bool:
+    #     """checks if argument is an integer"""
+    #     return isinstance(num, int)
 
     # instance methods
-    def print_user_stats(self) -> None:
-        """prints user's current stats to console"""
-        print(f"\n=== Player {self.name}'s current stats ===")
-        print(f"-- Health: {self.stats.get('health')}, Mana: {self.stats.get('mana')}")
-        print("-- Attributes:")
-        for item in self.attributes.items():
-            print(f"{item[0]}: {item[1]}")
-
     def increase_attribute(self, selected_attribute: str) -> bool:
         """assigns attributes points"""
         if selected_attribute in self.attributes:
@@ -63,15 +55,28 @@ class Player:
         assert attribute_points > 0, "attribute_points must be a positive int"
         while attribute_points > 0:
             self.print_user_stats()
-            selected_attribute = input(
-                f"""
-                You have ({attribute_points}) attribute points available, assign them to continue.
-                ~to assign a value, type the name of the attribute.
-                """
-            )
+            self.print_attribute_allowance(attribute_points)
+            selected_attribute = input()
             resolved = self.increase_attribute(selected_attribute)
             if resolved:
                 attribute_points -= 1
+
+    def print_user_stats(self) -> None:
+        """prints user's current stats to console"""
+        print(f"\n=== Player {self.name}'s current stats ===")
+        print(f"-- Health: {self.stats.get('health')}, Mana: {self.stats.get('mana')}")
+        print("-- Attributes:")
+        for item in self.attributes.items():
+            print(f"{item[0]}: {item[1]}")
+
+    def print_attribute_allowance(self, attribute_points: int) -> None:
+        """prints user's available attributes"""
+        print(
+            f"""
+        You have ({attribute_points}) attribute points available, assign them to continue.
+        ~to assign a value, type the name of the attribute.
+        """
+        )
 
 
 class Game:
