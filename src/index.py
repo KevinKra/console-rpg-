@@ -13,30 +13,32 @@ class Player:
         self.stats = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
 
     def print_user_stats(self):
+        """prints user's current stats to console"""
         print(f"\n=== Player {self.name}'s current stats ===")
         print(f"-- Health: {self.health}, Mana: {self.mana}")
         print(f"-- Attributes:")
         for item in self.stats.items():
             print(f"{item[0]}: {item[1]}")
 
-    def increase_stat(self, selected_stat: str, available_points: int):
+    def increase_stat(self, selected_stat: str):
+        """increases a selected state (optional)"""
         if selected_stat not in self.stats.keys():
-            print("attribute not found")
+            print("=== Notice: attribute not found")
         else:
             self.stats[selected_stat] += 1
-            return available_points - 1
 
-    def set_initial_player_stats(self):
-        avail_stat_points = 5
-        while avail_stat_points > 0:
+    def set_player_stats(self, stat_points: int):
+        """initial"""
+        while stat_points > 0:
             self.print_user_stats()
             selected_stat = input(
                 f"""
-                You have {avail_stat_points} attribute points available, assign them to continue.
-                ~to assign a value, type the name of the attribute
+                You have ({stat_points}) attribute points available, assign them to continue.
+                ~to assign a value, type the name of the attribute.
                 """
             )
-            avail_stat_points = self.increase_stat(selected_stat, avail_stat_points)
+            self.increase_stat(selected_stat)
+            stat_points -= 1
 
 
 class Game:
@@ -45,9 +47,9 @@ class Game:
 
     def create_player(self):
         user_name = set_user_name()
-        # user_class = set_user_class()
+        user_class = set_user_class()
         self.player = Player(user_name)
-        self.player.set_initial_player_stats()
+        self.player.set_player_stats(10)
 
     def start_game(self):
         self.create_player()
