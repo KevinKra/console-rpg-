@@ -1,4 +1,5 @@
 from typing import List, Type
+from xmlrpc.client import Boolean
 from utils.utils import set_user_name, set_user_class
 
 
@@ -24,6 +25,17 @@ class Player:
     # magic methods
     def __repr__(self) -> str:
         return f"Player({self.name})"
+
+    # example of class method
+    @classmethod
+    def some_class_method(cls) -> None:
+        """example of class method"""
+
+    # example of a static method
+    @staticmethod
+    def is_integer(num: int) -> bool:
+        """checks if argument is an integer"""
+        return isinstance(num, int)
 
     # instance methods
     def print_user_stats(self) -> None:
