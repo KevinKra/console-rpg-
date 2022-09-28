@@ -1,8 +1,6 @@
 import unittest
 from unittest import mock
 from src.utils.utils import addValues, confirm_user_choice, set_user_name
-import io
-import sys
 
 
 class TestConfirmUserChoice(unittest.TestCase):
