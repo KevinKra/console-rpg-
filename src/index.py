@@ -1,19 +1,31 @@
-from typing import Type
+from typing import List, Type
 from utils.utils import set_user_name, set_user_class
 
 
 class Player:
     """Player class defines and modifies Player attributes"""
 
+    # class attributes
+    allPlayers: List["Player"] = []
+
     def __init__(
         self,
         name: str,
     ):
+        # instance attributes
         self.name = name
         self.hero_type = None
         self.stats = {"health": 100, "mana": 0, "dodge": 0, "fortune": 0}
         self.attributes = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
 
+        # on instance init, add self to class attribute
+        Player.allPlayers.append(self)
+
+    # magic methods
+    def __repr__(self) -> str:
+        return f"Player({self.name})"
+
+    # instance methods
     def print_user_stats(self) -> None:
         """prints user's current stats to console"""
         print(f"\n=== Player {self.name}'s current stats ===")
@@ -55,12 +67,15 @@ class Game:
         self.player = Type[Player]
 
     def create_player(self) -> None:
+        """initializes the player"""
         user_name = set_user_name()
         set_user_class()
         self.player = Player(user_name)
-        self.player.set_player_attributes(-1)
+        print(Player.allPlayers)
+        self.player.set_player_attributes(5)
 
     def start_game(self) -> None:
+        """root function that starts the game"""
         self.create_player()
 
 
