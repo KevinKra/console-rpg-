@@ -1,41 +1,80 @@
 from utils.utils import set_user_name, set_user_class
 
 
-class Character:
+class Player:
     def __init__(
         self,
         name: str,
-        stats_mana: int,
-        stats_armor: int,
-        stats_health: int,
-        stats_luck: int,
     ) -> None:
         self.name = name
-        self.stats_health = stats_health
-        self.stats_mana = stats_mana
-        self.stats_armor = stats_armor
-        self.stats_luck = stats_luck
+        self.heroType = None
+        self.health = 100
+        self.mana = 0
+        self.stats = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
+
+    def print_user_stats(self):
+        print(f"\n=== Player {self.name}'s current stats ===")
+        print(f"-- Health: {self.health}, Mana: {self.mana}")
+        print(f"-- Attributes:")
+        for item in self.stats.items():
+            print(f"{item[0]}: {item[1]}")
+
+    def increase_stat(self, selected_stat: str, available_points: int):
+        if selected_stat not in self.stats.keys():
+            print("attribute not found")
+        else:
+            self.stats[selected_stat] += 1
+            return available_points - 1
+
+    def set_initial_player_stats(self):
+        avail_stat_points = 5
+        while avail_stat_points > 0:
+            self.print_user_stats()
+            selected_stat = input(
+                f"""
+                You have {avail_stat_points} attribute points available, assign them to continue.
+                ~to assign a value, type the name of the attribute
+                """
+            )
+            avail_stat_points = self.increase_stat(selected_stat, avail_stat_points)
 
 
-class Mage:
-    def __init__(self, type: str) -> None:
-        self.type = type
+class Game:
+    def __init__(self):
+        self.player = None
 
-    def set_type(self):
-        """set's the mage's type"""
-        # if type === fire
-        # if type === water
-        # if type === earth
-        # else restart and express types
+    def create_player(self):
+        user_name = set_user_name()
+        # user_class = set_user_class()
+        self.player = Player(user_name)
+        self.player.set_initial_player_stats()
 
-
-class FireMage:
-    def __init__(self) -> None:
-        pass
-
-    def cast_fireball(self, username: str):
-        print(f"{username} casts fireball")
+    def start_game(self):
+        self.create_player()
 
 
-set_user_name()
-set_user_class()
+# player = Player("tom")
+# player.set_initial_player_stats()
+game = Game()
+game.start_game()
+
+### ETC
+
+# class Mage:
+#     def __init__(self, type: str) -> None:
+#         self.type = type
+
+#     def set_type(self):
+#         """set's the mage's type"""
+#         # if type === fire
+#         # if type === water
+#         # if type === earth
+#         # else restart and express types
+
+
+# class FireMage:
+#     def __init__(self) -> None:
+#         pass
+
+#     def cast_fireball(self, username: str):
+#         print(f"{username} casts fireball")

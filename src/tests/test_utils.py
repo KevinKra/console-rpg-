@@ -1,6 +1,8 @@
 import unittest
 from unittest import mock
-from src.utils.utils import addValues, confirm_user_choice
+from src.utils.utils import addValues, confirm_user_choice, set_user_name
+import io
+import sys
 
 
 class TestConfirmUserChoice(unittest.TestCase):
@@ -21,21 +23,18 @@ class TestConfirmUserChoice(unittest.TestCase):
             confirm_user_choice(None, ["tree"])
 
 
-class TestAdd(unittest.TestCase):
-    def test_add(self):
-        result = addValues(2, 5)
-        self.assertEqual(result, 7)
+class TestSetUserName(unittest.TestCase):
+    # doesn't test str print output console.
+    def test_set_user_name(self):
+        with mock.patch("builtins.input", return_value="Tim"):
+            result = set_user_name()
+        self.assertEqual(result, "Tim")
 
 
-# if __name__ == "__main__":
-#     unittest.main()
+# i have no idea how to write a test for this util.
+# class TestSetUserClass(unittest.TestCase):
+#     def test_set_user_class(self):
 
-# from io import StringIO
-# @mock.patch("sys.stdout", new_callable=StringIO)
-# def main_op(self, tst_str, mock_stdout):
-#     with mock.patch("builtins.input", side_effect=tst_str):
-#         confirm_user_choice("y")
-#     return mock_stdout.getvalue()
 
 # from src.helpers import index
 # from src.helpers.index import *
