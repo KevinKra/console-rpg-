@@ -1,5 +1,4 @@
 from typing import List, Type
-from xmlrpc.client import Boolean
 from utils.utils import set_user_name, set_user_class
 
 
@@ -46,16 +45,18 @@ class Player:
         for item in self.attributes.items():
             print(f"{item[0]}: {item[1]}")
 
-    def increase_attribute(self, selected_attribute: str) -> None:
-        """increases a selected stat"""
-        if selected_attribute not in self.attributes.keys():
-            print("=== Notice: attribute not found")
-        else:
+    def increase_attribute(self, selected_attribute: str) -> bool:
+        """assigns attributes points"""
+        if selected_attribute in self.attributes:
             self.attributes[selected_attribute] += 1
             if selected_attribute == "strength":
                 self.stats["health"] += 10
             if selected_attribute == "intellect":
                 self.stats["mana"] += 10
+            return True
+        else:
+            print("\n=== Notice: ATTRIBUTE NOT FOUND ===")
+            return False
 
     def set_player_attributes(self, attribute_points: int) -> None:
         """set stats with a set total pool of available attribute_points"""
@@ -68,8 +69,9 @@ class Player:
                 ~to assign a value, type the name of the attribute.
                 """
             )
-            self.increase_attribute(selected_attribute)
-            attribute_points -= 1
+            resolved = self.increase_attribute(selected_attribute)
+            if resolved:
+                attribute_points -= 1
 
 
 class Game:
