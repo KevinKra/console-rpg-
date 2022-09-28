@@ -1,27 +1,28 @@
+from typing import Type
 from utils.utils import set_user_name, set_user_class
 
 
 class Player:
+    """Player class defines and modifies Player attributes"""
+
     def __init__(
         self,
         name: str,
-    ) -> None:
+    ):
         self.name = name
-        self.heroType = None
-        # self.health = 100
-        # self.mana = 0
+        self.hero_type = None
         self.stats = {"health": 100, "mana": 0, "dodge": 0, "fortune": 0}
         self.attributes = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
 
-    def print_user_stats(self):
+    def print_user_stats(self) -> None:
         """prints user's current stats to console"""
         print(f"\n=== Player {self.name}'s current stats ===")
         print(f"-- Health: {self.stats.get('health')}, Mana: {self.stats.get('mana')}")
-        print(f"-- Attributes:")
+        print("-- Attributes:")
         for item in self.attributes.items():
             print(f"{item[0]}: {item[1]}")
 
-    def increase_attribute(self, selected_attribute: str):
+    def increase_attribute(self, selected_attribute: str) -> None:
         """increases a selected stat"""
         if selected_attribute not in self.attributes.keys():
             print("=== Notice: attribute not found")
@@ -32,8 +33,9 @@ class Player:
             if selected_attribute == "intellect":
                 self.stats["mana"] += 10
 
-    def set_player_attributes(self, attribute_points: int):
+    def set_player_attributes(self, attribute_points: int) -> None:
         """set stats with a set total pool of available attribute_points"""
+        assert attribute_points > 0, "attribute_points must be a positive int"
         while attribute_points > 0:
             self.print_user_stats()
             selected_attribute = input(
@@ -47,16 +49,18 @@ class Player:
 
 
 class Game:
-    def __init__(self):
-        self.player = None
+    """Class used to initiate and run the game."""
 
-    def create_player(self):
+    def __init__(self) -> None:
+        self.player = Type[Player]
+
+    def create_player(self) -> None:
         user_name = set_user_name()
-        user_class = set_user_class()
+        set_user_class()
         self.player = Player(user_name)
-        self.player.set_player_attributes(5)
+        self.player.set_player_attributes(-1)
 
-    def start_game(self):
+    def start_game(self) -> None:
         self.create_player()
 
 
@@ -65,7 +69,7 @@ class Game:
 game = Game()
 game.start_game()
 
-### ETC
+# ETC
 
 # class Mage:
 #     def __init__(self, type: str) -> None:
