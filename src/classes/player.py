@@ -41,7 +41,15 @@ class Player:
         assert attribute_points > 0, "attribute_points must be a positive int"
         self.spendable_attribute_points = attribute_points
 
-    def increase_attribute(self) -> None:
+    def spend_player_attributes(self) -> None:
+        """set stats with a set total pool of available attribute_points"""
+        while self.spendable_attribute_points > 0:
+            self.__print_user_stats()
+            self.__print_attribute_allowance()
+            self.__increase_attribute()
+
+    # private instance methods
+    def __increase_attribute(self) -> None:
         """assigns attributes points"""
         selected_attribute = input()
         if selected_attribute in self.attributes:
@@ -54,14 +62,7 @@ class Player:
         else:
             print("\n=== Notice: ATTRIBUTE NOT FOUND ===")
 
-    def spend_player_attributes(self) -> None:
-        """set stats with a set total pool of available attribute_points"""
-        while self.spendable_attribute_points > 0:
-            self.print_user_stats()
-            self.print_attribute_allowance()
-            self.increase_attribute()
-
-    def print_user_stats(self) -> None:
+    def __print_user_stats(self) -> None:
         """prints user's current stats to console"""
         print(f"\n=== Player {self._name}'s current stats ===")
         print(f"-- Health: {self.stats.get('health')}, Mana: {self.stats.get('mana')}")
@@ -69,7 +70,7 @@ class Player:
         for item in self.attributes.items():
             print(f"{item[0]}: {item[1]}")
 
-    def print_attribute_allowance(self) -> None:
+    def __print_attribute_allowance(self) -> None:
         """prints user's available attributes"""
         print(
             f"""
