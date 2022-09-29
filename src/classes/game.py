@@ -1,6 +1,6 @@
 from typing import Type
 from classes.player import Player
-from utils.utils import set_user_name, set_user_class
+from utils.utils import confirm_user_choice, set_user_name, set_user_class
 
 
 class Game:
@@ -15,14 +15,14 @@ class Game:
         user_name = set_user_name()
         set_user_class()
         self.player = Player(user_name)
-        self.player.set_attribute_points(5)
+        self.player.set_attribute_points(3)
         self.player.spend_player_attributes()
 
     def set_story_length(self) -> None:
         """set the length of the game (story)"""
-        response = input("Choose a story length [short, medium, long]")
+        response = input("Choose a story length [short, medium, long]\n")
         while response.lower() not in ["short", "medium", "long"]:
-            response = input("Enter either: short, medium, or long")
+            response = input("Enter either: short, medium, or long\n")
         if response == "short":
             self.story_length = 10
         elif response == "medium":
