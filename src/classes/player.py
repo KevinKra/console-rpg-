@@ -1,15 +1,4 @@
-from typing import List
-
-# # example of class method
-# @classmethod
-# def some_class_method(cls) -> None:
-#     """example of class method"""
-
-# # example of a static method
-# @staticmethod
-# def is_integer(num: int) -> bool:
-#     """checks if argument is an integer"""
-#     return isinstance(num, int)
+from typing import Any, List, Type
 
 
 class Player:
@@ -23,8 +12,8 @@ class Player:
         name: str,
     ):
         # instance attributes
-        self.name = name
-        self.hero_type = None
+        self._name = name
+        self.__hero_type = str
         self.stats = {"health": 100, "mana": 0, "dodge": 0, "fortune": 0}
         self.attributes = {"strength": 0, "intellect": 0, "agility": 0, "luck": 0}
         self.spendable_attribute_points = 0
@@ -34,7 +23,17 @@ class Player:
 
     # magic methods
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.name})"
+        return f"{self.__class__.__name__}({self._name})"
+
+    @property
+    def hero_type(self) -> Type[str]:
+        """gets private hero_type attribute"""
+        return self.__hero_type
+
+    @hero_type.setter
+    def hero_type(self, value: Any) -> None:
+        """sets private hero_type attribute"""
+        self.__hero_type = value
 
     # instance methods
     def set_attribute_points(self, attribute_points: int) -> None:
@@ -64,7 +63,7 @@ class Player:
 
     def print_user_stats(self) -> None:
         """prints user's current stats to console"""
-        print(f"\n=== Player {self.name}'s current stats ===")
+        print(f"\n=== Player {self._name}'s current stats ===")
         print(f"-- Health: {self.stats.get('health')}, Mana: {self.stats.get('mana')}")
         print("-- Attributes:")
         for item in self.attributes.items():
@@ -78,3 +77,35 @@ class Player:
         ~to assign a value, type the name of the attribute.
         """
         )
+
+
+# # example of class method
+# @classmethod
+# def some_class_method(cls) -> None:
+#     """example of class method"""
+
+# # example of a static method
+# @staticmethod
+# def is_integer(num: int) -> bool:
+#     """checks if argument is an integer"""
+#     return isinstance(num, int)
+
+# read-only attribute
+# self._name
+
+# private attribute (only accessible within defined class)
+# self.__name
+
+
+# @property
+# # property decorator == read-only attribute (getter)
+# def name(self):
+#     # additional code can go here
+#     return self.__name
+
+
+# @name.setter
+# # setter
+# def name(self, value):
+#     # additional code can go here
+#     self.__name = value
