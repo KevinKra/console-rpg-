@@ -1,6 +1,7 @@
 from typing import Type
 from classes.player import Player
-from utils.utils import confirm_user_choice, set_user_name, set_user_class
+from classes.round import Round
+from utils.utils import set_user_name, set_user_class
 
 
 class Game:
@@ -10,7 +11,7 @@ class Game:
         self.player = Type[Player]
         self.story_length = 0
 
-    def create_player(self) -> None:
+    def __create_player(self) -> None:
         """initializes the player"""
         user_name = set_user_name()
         set_user_class()
@@ -18,7 +19,7 @@ class Game:
         self.player.set_attribute_points(3)
         self.player.spend_player_attributes()
 
-    def set_story_length(self) -> None:
+    def __set_story_length(self) -> None:
         """set the length of the game (story)"""
         response = input("Choose a story length [short, medium, long]\n")
         while response.lower() not in ["short", "medium", "long"]:
@@ -32,7 +33,16 @@ class Game:
         else:
             raise ValueError("Unexpected user response")
 
+    def __initialize_game(self) -> None:
+        """runner for the game"""
+
+        game_round = Round()
+        while self.story_length > 0:
+            game_round.generate_round()
+            self.story_length -= 1
+
     def start_game(self) -> None:
         """root function that starts the game"""
-        self.create_player()
-        self.set_story_length()
+        self.__create_player()
+        self.__set_story_length()
+        self.__initialize_game()
