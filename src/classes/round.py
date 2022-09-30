@@ -17,3 +17,6 @@ class Round:
 
     def __event_monster_encounter(self) -> None:
         input("You encounter a monster, what do you do?")
+
+    # def __event_no_encounter(self) -> None:
+    #     input("Nothing happens, you continue.")

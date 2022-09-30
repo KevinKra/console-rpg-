@@ -38,8 +38,11 @@ class Game:
 
         game_round = Round()
         while self.story_length > 0:
-            game_round.generate_round()
-            self.story_length -= 1
+            if self.story_length > 0:
+                game_round.generate_round()
+                self.story_length -= 1
+            else:
+                print("Game Complete. Stats ...")
 
     def start_game(self) -> None:
         """root function that starts the game"""
